@@ -1,0 +1,87 @@
+// schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String?
+  email        String?   @unique
+  phone        String?   @unique
+  profileImage String?
+  bio          String?
+  latitude     Float? // current or last known location
+  longitude    Float?
+  lastActiveAt DateTime? // to know how fresh location data is
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  eventsCreated Event[]         @relation("UserEvents")
+  attendees     EventAttendee[]
+}
+
+model Event {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  startTime   DateTime?
+  endTime     DateTime?
+  latitude    Float
+  longitude   Float
+  address     String?
+  city        String?
+  categoryId  Int?
+  createdById Int
+  visibility  Visibility @default(PUBLIC)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  createdBy User            @relation("UserEvents", fields: [createdById], references: [id])
+  attendees EventAttendee[]
+  images    EventImage[]
+  category  EventCategory?  @relation(fields: [categoryId], references: [id])
+}
+
+model EventCategory {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  events Event[]
+}
+
+model EventAttendee {
+  id        Int        @id @default(autoincrement())
+  userId    Int
+  eventId   Int
+  status    RSVPStatus @default(INTERESTED)
+  createdAt DateTime   @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
+}
+
+model EventImage {
+  id        Int      @id @default(autoincrement())
+  eventId   Int
+  imageUrl  String
+  createdAt DateTime @default(now())
+
+  event Event @relation(fields: [eventId], references: [id])
+}
+
+enum RSVPStatus {
+  INTERESTED
+  GOING
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  INVITE_ONLY
+}

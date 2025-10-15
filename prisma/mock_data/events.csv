@@ -1,0 +1,4 @@
+title,description,startTime,endTime,latitude,longitude,address,city,categoryName,createdByEmail,visibility
+Indie Music Night,Live performances by local artists,2025-11-01T19:00:00Z,2025-11-01T22:00:00Z,12.9718,77.5940,MG Road,Bangalore,Music,alice@example.com,PUBLIC
+Tech Meetup 101,Intro talks on modern web stacks,2025-11-05T18:00:00Z,2025-11-05T20:30:00Z,12.9722,77.5965,Church Street,Bangalore,Technology,bob@example.com,PUBLIC
+Morning Run Club,5K community run and coffee,2025-11-03T06:30:00Z,2025-11-03T08:00:00Z,12.9655,77.5820,Cubbon Park,Bangalore,Sports,cara@example.com,PUBLIC

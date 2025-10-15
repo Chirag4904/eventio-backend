@@ -1,0 +1,4 @@
+eventTitle,eventCreatedByEmail,userEmail,status
+Indie Music Night,alice@example.com,bob@example.com,GOING
+Indie Music Night,alice@example.com,eva@example.com,INTERESTED
+Tech Meetup 101,bob@example.com,alice@example.com,INTERESTED
