@@ -7,7 +7,7 @@ interface EventInput {
   endTime?: string;
   latitude: number;
   longitude: number;
-  createdById: number;
+  createdById: string;
 }
 /**
  * Get event by ID
