@@ -37,7 +37,6 @@ export async function authenticate(
         req.authSession = session;
         req.authUser = session.user;
 
-        console.log("Authenticated user:", session.user);
 
         return next();
     } catch (err) {
