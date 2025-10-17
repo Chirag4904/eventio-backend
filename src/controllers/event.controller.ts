@@ -73,8 +73,6 @@ export async function getEventsInBounds(req: Request, res: Response) {
 
     // Match frontend expectations
     res.json({ events });
-
-    console.log("return events", events, apicallCount++);
   } catch (err: any) {
     console.error(err);
     res.status(500).json({ error: err.message });
