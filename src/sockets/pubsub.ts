@@ -58,4 +58,16 @@ export class PubSubManager {
       logger.info({ channel }, "Unsubscribed (no Redis)");
     }
   }
+
+  // pubsub.ts
+  public async publish(channel: string, payload: any) {
+    if (!this.redis) {
+      this.io.to(this.roomFor(channel)).emit("notification:new", payload);
+      logger.warn("Redis not enabled, broadcasting locally only");
+      return;
+    }
+    await this.redis.publish(channel, JSON.stringify(payload));
+    logger.info({ channel }, "Published to Redis");
+  }
+
 }
