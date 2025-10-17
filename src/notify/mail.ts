@@ -17,13 +17,16 @@ if (!smtpUser || !smtpPass) {
 }
 
 const transporter = nodemailer.createTransport({
+    pool:true,
     host: smtpHost,
-    port: smtpPort,
+    port: smtpPort ===465 ? 465 : 587,
     secure: smtpPort === 465, // true for SSL (465), false for TLS (587)
     auth: {
         user: smtpUser,
         pass: smtpPass,
     },
+    maxMessages:100,
+    maxConnections:10,
     // optional TLS settings
     tls: {
         // do not fail on invalid certs (if Hostinger uses self-signed, etc.)
