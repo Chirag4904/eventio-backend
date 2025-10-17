@@ -34,6 +34,18 @@ export interface NotificationMessagePayload {
   data?: Record<string, unknown>;
 }
 
+// Event related (for broadcasting new events)
+export interface EventCreatedPayload {
+  id?: string;
+  title: string;
+  description?: string | null;
+  startTimeIso?: string | null;
+  endTimeIso?: string | null;
+  latitude: number;
+  longitude: number;
+  creatorId?: string;
+}
+
 // Chat related events (placeholder implementations only)
 // NOTE: Placeholder for future chat functionality; no chat models yet.
 export interface ChatJoinPayload {
@@ -59,6 +71,9 @@ export interface ClientToServerEvents {
   // notifications
   "notification:subscribe": (payload: NotificationSubscribePayload) => void;
   "notification:ack": (id: string) => void;
+
+  // events
+  "event:new": (payload: EventCreatedPayload, ack?: (ok: boolean) => void) => void;
 
   // chat (placeholder)
   "chat:join": (payload: ChatJoinPayload, ack?: (ok: boolean) => void) => void;
