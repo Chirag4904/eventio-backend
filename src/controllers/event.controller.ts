@@ -28,8 +28,13 @@ export async function getEventById(req: Request, res: Response) {
 
 export async function createEvent(req: Request, res: Response) {
   try {
-    const event = await eventService.createEvent(req.body);
+    const { id: createdById } = req.authUser;
+    const event = await eventService.createEvent({
+      ...req.body,
+      createdById,
+    });
     res.status(201).json(event);
+    console.log("coming here");
   } catch (err: any) {
     console.error(err);
     res.status(400).json({ error: err.message });
@@ -72,81 +77,81 @@ export async function getEventsInBounds(req: Request, res: Response) {
       parseFloat(neLng as string)
     );
 
-    const mockEvents = [
-      {
-        id: 1,
-        title: "House Party",
-        description: "House Party for Strangers",
-        address: "Bengaluru, Karnataka, India",
-        startTime: new Date("2023-01-01T12:00:00Z"),
-        endTime: new Date("2023-01-01T14:00:00Z"),
-        // category:{
-        //   id: 1,
-        //   name: "Category 1",
-        // },
-        city: "Bengaluru",
-        visibility:"PUBLIC",
-        latitude: 12.9716,
-        longitude: 77.5946,
-        updatedAt: new Date(),
-        createdAt: new Date(),
-        category:{
-          id: 1,
-          // name: "Category 1",
-        },
-        createdById:"124124214dfesg",
-      },
-      {
-        id: 2,
-        title: "Visit Jawaharlal Nehru Planetarium",
-        description: "Visit Jawaharlal Nehru Planetarium",
-        address: "Bengaluru, Karnataka, India",
-        startTime: new Date("2023-01-02T12:00:00Z"),
-        endTime: new Date("2023-01-02T14:00:00Z"),
-        // category:{
-        //   id: 1,
-        //   name: "Category 1",
-        // },
-        city: "Bengaluru",
-        visibility:"PUBLIC",
-        latitude: 12.98491,
-        longitude: 77.58964,
-        updatedAt: new Date(),
-        createdAt: new Date(),
-        category:{
-          id: 3,
-          // name: "photography",
-        },
-        createdById:"124124214dfesg",
-      },
-        //create a mumbai event
-      {
-        id: 3,
-        title: "Visit Mumbai Gateway of India",
-        description: "Visit Mumbai Gateway of India",
-        address: "Mumbai, Maharashtra, India",
-        startTime: new Date("2023-01-03T12:00:00Z"),
-        endTime: new Date("2023-01-03T14:00:00Z"),
-        // category:{
-        //   id: 1,
-        //   name: "Category 1",
-        // },
-        city: "Mumbai",
-        visibility:"PUBLIC",
-        latitude: 18.92217,
-        longitude: 72.83387,
-        updatedAt: new Date(),
-        createdAt: new Date(),
-        category:{
-          id: 2,
-          // name: "music",
-        },
-        createdById:"124124214dfesg",
-      }
-    ];
+    // const mockEvents = [
+    //   {
+    //     id: 1,
+    //     title: "House Party",
+    //     description: "House Party for Strangers",
+    //     address: "Bengaluru, Karnataka, India",
+    //     startTime: new Date("2023-01-01T12:00:00Z"),
+    //     endTime: new Date("2023-01-01T14:00:00Z"),
+    //     // category:{
+    //     //   id: 1,
+    //     //   name: "Category 1",
+    //     // },
+    //     city: "Bengaluru",
+    //     visibility: "PUBLIC",
+    //     latitude: 12.9716,
+    //     longitude: 77.5946,
+    //     updatedAt: new Date(),
+    //     createdAt: new Date(),
+    //     category: {
+    //       id: 1,
+    //       // name: "Category 1",
+    //     },
+    //     createdById: "124124214dfesg",
+    //   },
+    //   {
+    //     id: 2,
+    //     title: "Visit Jawaharlal Nehru Planetarium",
+    //     description: "Visit Jawaharlal Nehru Planetarium",
+    //     address: "Bengaluru, Karnataka, India",
+    //     startTime: new Date("2023-01-02T12:00:00Z"),
+    //     endTime: new Date("2023-01-02T14:00:00Z"),
+    //     // category:{
+    //     //   id: 1,
+    //     //   name: "Category 1",
+    //     // },
+    //     city: "Bengaluru",
+    //     visibility: "PUBLIC",
+    //     latitude: 12.98491,
+    //     longitude: 77.58964,
+    //     updatedAt: new Date(),
+    //     createdAt: new Date(),
+    //     category: {
+    //       id: 3,
+    //       // name: "photography",
+    //     },
+    //     createdById: "124124214dfesg",
+    //   },
+    //   //create a mumbai event
+    //   {
+    //     id: 3,
+    //     title: "Visit Mumbai Gateway of India",
+    //     description: "Visit Mumbai Gateway of India",
+    //     address: "Mumbai, Maharashtra, India",
+    //     startTime: new Date("2023-01-03T12:00:00Z"),
+    //     endTime: new Date("2023-01-03T14:00:00Z"),
+    //     // category:{
+    //     //   id: 1,
+    //     //   name: "Category 1",
+    //     // },
+    //     city: "Mumbai",
+    //     visibility: "PUBLIC",
+    //     latitude: 18.92217,
+    //     longitude: 72.83387,
+    //     updatedAt: new Date(),
+    //     createdAt: new Date(),
+    //     category: {
+    //       id: 2,
+    //       // name: "music",
+    //     },
+    //     createdById: "124124214dfesg",
+    //   },
+    // ];
 
     // Match frontend expectations
-    res.status(200).json({ events: mockEvents });
+    res.status(200).json({ events });
     // res.json({ events });
 
     console.log("events found", events, req.authUser);
