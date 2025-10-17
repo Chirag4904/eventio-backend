@@ -1,13 +1,15 @@
 import { Router } from "express";
 import {
-    getUserProfile,
+    getMyProfile,
+    getPublicUserProfile,
 } from "../controllers/user.controller.ts";
 
 const router = Router();
 
-//get events
-router.get("/profile", getUserProfile);
+// Authenticated: get my full profile
+router.get("/me", getMyProfile);
 
-
+// Public: get another user's public profile
+router.get("/:userID/public", getPublicUserProfile);
 
 export default router;
